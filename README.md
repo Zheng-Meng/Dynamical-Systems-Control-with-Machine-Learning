@@ -80,6 +80,19 @@ On the left is the plot from the start, and on the right is after removing the u
 <h3>Citation</h3>
 
 ```
+@article{canaday2021model,
+  title={Model-free control of dynamical systems with deep reservoir computing},
+  author={Canaday, Daniel and Pomerance, Andrew and Gauthier, Daniel J},
+  journal={Journal of Physics: Complexity},
+  volume={2},
+  number={3},
+  pages={035025},
+  year={2021},
+  publisher={IOP Publishing}
+}
+```
+
+```
 @article{zhai2023model,
   title={Model-free tracking control of complex dynamical trajectories with machine learning},
   author={Zhai, Zheng-Meng and Moradi, Mohammadamin and Kong, Ling-Wei and Glaz, Bryan and Haile, Mulugeta and Lai, Ying-Cheng},
@@ -92,18 +105,7 @@ On the left is the plot from the start, and on the right is after removing the u
 }
 ```
 
-```
-@article{canaday2021model,
-  title={Model-free control of dynamical systems with deep reservoir computing},
-  author={Canaday, Daniel and Pomerance, Andrew and Gauthier, Daniel J},
-  journal={Journal of Physics: Complexity},
-  volume={2},
-  number={3},
-  pages={035025},
-  year={2021},
-  publisher={IOP Publishing}
-}
-```
+
 
 
 
