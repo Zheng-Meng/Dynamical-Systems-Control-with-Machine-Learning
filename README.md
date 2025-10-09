@@ -2,7 +2,7 @@
 
 Previously we have published a paper in [Nature Communications](https://doi.org/10.1038/s41467-023-41379-3), which proposed a framework to control dynamical systems, specifically robotic manipulators, to track complex chaotic or periodic trajectories. The codes are available in [My Github](https://github.com/Zheng-Meng/Tracking-Control). However, that is a complicated issue, and it is not easy to train. At that time we trained at least hundreds of reservoirs using long training data.
 
-Many friends asked me that they are interested in this field (model-free control of dynamical systems with machine learning), and wonder if there exists a comparably simpler task for beginners to start with. In light of this, here I want to introduce controlling chaotic systems, specifically a chaotic Lorenz system to a periodic orbit, by using reservoir computing (a type of recurrent neural network). This is one of examepls in this [Paper](https://iopscience.iop.org/article/10.1088/2632-072X/ac24f3).
+Many friends asked me that they are interested in this field (model-free control of dynamical systems with machine learning), and wonder if there exists a comparably simpler task for beginners to start with. In light of this, here I want to introduce controlling chaotic systems, specifically a chaotic Lorenz system to a periodic orbit, by using reservoir computing (a type of recurrent neural network). This is one of the examepls in this [Paper](https://iopscience.iop.org/article/10.1088/2632-072X/ac24f3).
 
 <h3>Overview</h3>
 
