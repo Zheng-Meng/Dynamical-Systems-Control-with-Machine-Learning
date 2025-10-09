@@ -68,7 +68,7 @@ On the left is the plot from the start, and on the right is after removing the u
 
 <h3>More information</h3>
 
-- You can do more tests, such as longer or shorter periodic orbits, or control it to some unstable steady states, and more, to futher validate the performance.
+- You can do more tests, such as orbits with longer or shorter periods, or control it to some unstable steady states, and more, to futher validate the performance.
 
 - Here I did not optimize the hyperparameters. To improve the performance, one should optimize them for RC, as they are vital to the result, as shown [here](https://github.com/Zheng-Meng/Reservoir-Computing-and-Hyperparameter-Optimization).
 
