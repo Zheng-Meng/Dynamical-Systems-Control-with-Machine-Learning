@@ -1,8 +1,8 @@
 <h1 align="center">Dynamical Systems Control with Machine Learning</h1>
 
-Previously I have published a paper in [Nature Communications](https://doi.org/10.1038/s41467-023-41379-3), which proposed a framework to control dynamical systems, specifically robotic arms, to track complex chaotic or periodic trajectories. The codes are available in [My Github](https://github.com/Zheng-Meng/Tracking-Control). However, that is a complicated issue: it is not easy to train. At that time we trained at least hundreds of reservoirs using long training data.
+Previously we have published a paper in [Nature Communications](https://doi.org/10.1038/s41467-023-41379-3), which proposed a framework to control dynamical systems, specifically robotic manipulators, to track complex chaotic or periodic trajectories. The codes are available in [My Github](https://github.com/Zheng-Meng/Tracking-Control). However, that is a complicated issue, and it is not easy to train. At that time we trained at least hundreds of reservoirs using long training data.
 
-Many people asked me that they are interested in this field (model-free control of dynamical systems with machine learning), and wonder if there exists a comparably simpler task for beginners to start with. In light of this, here I want to introduce controlling chaotic systems, specifically a chaotic Lorenz system to a periodic orbit, by using reservoir computing (a type of recurrent neural network). This task has been done in this [Paper](https://iopscience.iop.org/article/10.1088/2632-072X/ac24f3) (though there are differences).
+Many friends asked me that they are interested in this field (model-free control of dynamical systems with machine learning), and wonder if there exists a comparably simpler task for beginners to start with. In light of this, here I want to introduce controlling chaotic systems, specifically a chaotic Lorenz system to a periodic orbit, by using reservoir computing (a type of recurrent neural network). This task has been done in this [Paper](https://iopscience.iop.org/article/10.1088/2632-072X/ac24f3) (though there are differences).
 
 <h3>Overview</h3>
 
@@ -12,13 +12,13 @@ Many people asked me that they are interested in this field (model-free control 
 
 This line of researh follows the above framework. Specifically, we first need to generate the training data, where the current state **x**(t) is driven by some control signal **u**(t) to the next state **x**(t+dt), step by step. You can imagine a robotic arm as an example: torques are added to the arms to push them move in time. After collecting this data, we would, as panel (a) depicts, put the current state and the next state together as the input, and the control signal that causes this as the output. Thus, the machine learns through the training phase: if we want to move from the current state to a nearby next state, how should we add the control signal to the system.
 
-This is exactly how we test the model later. We give the current observed state **x**(t) and the target state **x**$_d(t)$ in each step as input, and the well-trained model should return an appropriate control signal. It is worth noting that this data-driven control framework is not only limited to chaotic orbit control or robotic arms; as long as it is a dynamical system, it should work.
+This is exactly how we test the model later. We give the current observed state **x**(t) and the target state **x**$_d(t)$ in each step as input, and the well-trained model should return an appropriate control signal. It is worth noting that this data-driven control framework is not only limited to chaotic orbit control or robotic arms; As long as it is a dynamical system, it should work.
 
 <h3>Example: Controlling the Lorenz System</h3>
 
 Now let’s move to our example. Our aim here is to control a chaotic Lorenz system to a periodic orbit. 
 
-First, run `find_lorenz_orbits.m` to identify periodic orbits for control and save them to a file for later use. Since I have already run this step and saved the results, you may skip it if desired. Below, I plot one of the identified orbits as an example:
+First, run `find_lorenz_orbits.m` to identify periodic orbits for control and save them to a file for later use. Since I have already run this step and saved the results, you may skip it if you want. Below, I plot one of the identified orbits:
 
 <p align="center">
 <img src='figures/lorenz_orbit.png' width='500'>
