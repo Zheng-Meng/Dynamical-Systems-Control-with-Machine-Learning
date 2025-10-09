@@ -34,7 +34,7 @@ Given this data, we can then train the RC, you can run `train_rc_lorenz.m` to tr
 <img src='figures/rc_train.png' width='700'>
 </p>
 
-
+The evaluation stage performance is great. However, this does not directly mean for target orbit it will predict well, as the target is conitinuous control to a periodic orbit. Therefore we need to further test the trained RC. Run `test_rc_lorenz` and it will use the saved trained RC, and test on pre-found orbit. 
 
 
 
