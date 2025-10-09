@@ -74,7 +74,7 @@ On the left is the plot from the start, and on the right is after removing the u
 
 - It is also worth noting that one problem existing in many papers (and also shown here) is that the control signals often need to be sufficiently large to achieve good performance. However, in many real scenarios, our available energy is limited. Thus, how to use as little control energy as possible while still achieving satisfactory control is an interesting topic.
 
-- (Future space) There are also many other interesting topics in my mind, but I am currently tired to write them down. 
+- (Future space) There are also many other interesting topics came to my mind, but I am currently tired to write them down. 
 
 
 <h3>Citation</h3>
