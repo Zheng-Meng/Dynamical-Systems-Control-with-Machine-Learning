@@ -1,8 +1,19 @@
 <h1 align="center">Dynamical Systems Control with Machine Learning</h1>
 
-Previously I have published a paper in [Nature Communications](https://doi.org/10.1038/s41467-023-41379-3), which proposed a framework to control dynamical systems, specifically, robotic arms, to track complex chaotic or periodic trajectories. The codes are available in [My Github](https://github.com/Zheng-Meng/Tracking-Control). However, I have to say that it is a complicated issue. It is not easy to train, at that time we trained at least hunderds of reservoirs in long traning data. Many asked me that they are interested in this field: Model-free control of dynamical systems with machine learning, and wonder that is there exist a comparably simpler task for beginning learn. In light of this, here I want to introduce controling chaotic systems, specifcally, a chaotic Lorenz system to a periodic orbit, by using reseroivr computing, which is a type of recurrent neural networks. I have to mention that this task has been done, in this [paper](https://iopscience.iop.org/article/10.1088/2632-072X/ac24f3), thus this repo is actually reproduce (although many things are simplfied here) that work.
+Previously I have published a paper in [Nature Communications](https://doi.org/10.1038/s41467-023-41379-3), which proposed a framework to control dynamical systems, specifically robotic arms, to track complex chaotic or periodic trajectories. The codes are available in [My Github](https://github.com/Zheng-Meng/Tracking-Control). However, that is a complicated issue: it is not easy to train. At that time we trained at least hundreds of reservoirs using long training data.
 
-Before that, I have to mention both these two works, in this line of researh, follow the similar framework (as shown in the figure above). Specifically, we need to first generate the training data, where the current state is drived by some control signal to the next state, step by step. You can imagine a robtic arm as an example: torques are added to the arms to push them move in time. After collecting this data, we would, as panel (a) depicts, put current state and the next state in each time together as the input, and the control singal cause this as the output. Thus the machine learns through the whole learning phase, if we want to start from the current state to a random next state (close), how should we add the control signal to the dynamical system. And this is exactly how we test the machine in the testing phase, we give current observed state, and the target state in each step as input, the well-trained machine should return an appropriate control signal. It is worth noting that this data driven control framework is not only limited in chaotic orbits control or robotic arms, as long as it is a dynamical system, it should work.
+Many people asked me that they are interested in this field (model-free control of dynamical systems with machine learning), and wonder if there exists a comparably simpler task for beginners to start with. In light of this, here I want to introduce controlling chaotic systems, specifically a chaotic Lorenz system to a periodic orbit, by using reservoir computing (a type of recurrent neural network). This task has been done in this [Paper](https://iopscience.iop.org/article/10.1088/2632-072X/ac24f3) (though there are some differences).
+
+<p align="center">
+<img src='figures/overview.png' width='800'>
+</p>
+
+This line of researh follows the above framework. Specifically, we first need to generate the training data, where the current state **x**(t) is driven by some control signal **u**(t) to the next state **x**(t+dt), step by step. You can imagine a robotic arm as an example: torques are added to the arms to push them move in time. After collecting this data, we would, as panel (a) depicts, put the current state and the next state together as the input, and the control signal that causes this as the output. Thus, the machine learns through the training phase: if we want to move from the current state to a nearby next state, how should we add the control signal to the system.
+
+This is exactly how we test the model later. We give the current observed state and the target state in each step as input, and the well-trained model should return an appropriate control signal. It is worth noting that this data-driven control framework is not only limited to chaotic orbit control or robotic arms; as long as it is a dynamical system, it should work.
+
+
+Specifically, we need to first generate the training data, where the current state is drived by some control signal to the next state, step by step. You can imagine a robtic arm as an example: torques are added to the arms to push them move in time. After collecting this data, we would, as panel (a) depicts, put current state and the next state in each time together as the input, and the control singal cause this as the output. Thus the machine learns through the whole learning phase, if we want to start from the current state to a random next state (close), how should we add the control signal to the dynamical system. And this is exactly how we test the machine in the testing phase, we give current observed state, and the target state in each step as input, the well-trained machine should return an appropriate control signal. It is worth noting that this data driven control framework is not only limited in chaotic orbits control or robotic arms, as long as it is a dynamical system, it should work.
 
 Now let's move to our example. Our aim is to control a chaotic Lorenz system, to a periodic orbit. If we can achieve this, and with more experiments, maybe we can successfully control this dynamical system to any state in the attractors (unstable steady states or arbitrary periodic orbits).
 
@@ -34,13 +45,23 @@ Given this data, we can then train the RC, you can run `train_rc_lorenz.m` to tr
 <img src='figures/rc_train.png' width='700'>
 </p>
 
-The evaluation stage performance is great. However, this does not directly mean for target orbit it will predict well, as the target is conitinuous control to a periodic orbit. Therefore we need to further test the trained RC. Run `test_rc_lorenz` and it will use the saved trained RC, and test on pre-found orbit. 
+The evaluation stage performance is great. However, this does not directly mean for target orbit it will predict well, as the target is conitinuous control to a periodic orbit. Therefore we need to further test the trained RC. Run `test_rc_lorenz` and it will use the saved trained RC, and test on pre-found orbit. One ran example are shown below:
 
+<p align="center">
+<img src='figures/controlled.png' width='700'>
+</p>
 
+On the left is the control signal generated by reservoir computing, where they are limited in the bound set in the training, even though the RC predicts a value out of bound. The controlled time series, compared with the ground truth target, are shown on the right. It can be seen that the RC tracks the target periodic orbit well visually. If we plot this tracked performance in 3 diemsional, the performance are as follows:
 
+<p align="center">
+<img src='figures/controlled_attractor.png' width='700'>
+</p>
 
+On the left is plot from the start, and on the right is what we remove the begining not stable control, and only plot long-term stable controlled result. The performance is that it also achieve stable tracks the orbit, although there are deviations that are not obvious in previous plot.
 
+To further improve the performance, one should optimize the hyperparameters of RC, as they are vital to the performance, as shown in [here](https://github.com/Zheng-Meng/Reservoir-Computing-and-Hyperparameter-Optimization). In addition, you can do more test, such as longer or shorter periodic orbits, or control it to some unstable steady states, and others.
 
+It is also worth noting that, one problem exist in many papers, and as also shown here, is that the control signals should be sufficiently large, to achieve a good peroframned control. However, in many real scenarios our energy is not enough. Then how to use as less as the control signals, in all aspects, to achieve a satisfactory ctonrl is a interesting topic.
 
 
 
