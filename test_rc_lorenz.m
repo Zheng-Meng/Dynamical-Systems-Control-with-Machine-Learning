@@ -99,16 +99,20 @@ grid on;
 % PLOT 2: Control Parameters Over Time
 % ----------------------------------------
 time_control = (0:T_control-2) * dt; % Time vector for control parameters
+num_params = size(control_params, 2);
 
-figure;
-plot(time_control, control_params, 'LineWidth', 1.2);
-xlabel('Time (s)');
-ylabel('Controlled Parameters');
-title('Control Parameters Over Time');
-legend(arrayfun(@(d) sprintf('Param %d', d), output_dims, 'UniformOutput', false));
-grid on;
+figure('Position', [100, 100, 800, 600]);
 
-disp('Control simulation complete: Reference and controlled trajectories plotted.');
+for i = 1:num_params
+    subplot(num_params, 1, i);
+    plot(time_control, control_params(:, i), 'LineWidth', 1.2);
+    xlabel('Time (s)');
+    ylabel(sprintf('Param %d', i));
+    title(sprintf('Control Parameter %d Over Time', i));
+    grid on;
+end
+
+sgtitle('Control Parameters Over Time');
 
 
 % ----------------------------------------
