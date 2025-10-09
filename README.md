@@ -24,7 +24,7 @@ First, run `find_lorenz_orbits.m` to identify periodic orbits for control and sa
 <img src='figures/lorenz_orbit.png' width='500'>
 </p>
 
-The black attractor is the Lorenz attractor, and the red line denotes one orbit that we will later control the system to follow. We choose the following method to add control signals to the Lorenz system:
+Black is the Lorenz attractor, and the red line denotes one orbit that we will later control the system to follow. We choose the following method to add control signals to the Lorenz system:
 
 $$\frac{dx}{dt}=\sigma (y-x) + u_1, $$
 
