@@ -2,7 +2,7 @@
 
 Previously we have published a paper in [Nature Communications](https://doi.org/10.1038/s41467-023-41379-3), which proposed a framework to control dynamical systems, specifically robotic manipulators, to track complex chaotic or periodic trajectories. The codes are available in [My Github](https://github.com/Zheng-Meng/Tracking-Control). However, that is a complicated issue, and it is not easy to train. At that time we trained at least hundreds of reservoirs using long training data.
 
-Many friends asked me that they are interested in this field (model-free control of dynamical systems with machine learning), and wonder if there exists a comparably simpler task for beginners to start with. In light of this, here I want to introduce controlling chaotic systems, specifically a chaotic Lorenz system to a periodic orbit, by using reservoir computing (a type of recurrent neural network). This task has been done in this [Paper](https://iopscience.iop.org/article/10.1088/2632-072X/ac24f3) (though there are differences).
+Many friends asked me that they are interested in this field (model-free control of dynamical systems with machine learning), and wonder if there exists a comparably simpler task for beginners to start with. In light of this, here I want to introduce controlling chaotic systems, specifically a chaotic Lorenz system to a periodic orbit, by using reservoir computing (a type of recurrent neural network). This is one of examepls in this [Paper](https://iopscience.iop.org/article/10.1088/2632-072X/ac24f3) (though there are differences).
 
 <h3>Overview</h3>
 
@@ -40,15 +40,15 @@ Now it comes to the data generation part. The control signals are chosen within 
 <img src='figures/control_signal.png' width='800'>
 </p>
 
-Given this data, we can then train the machine learning controller. Here we employ reservoir computing (RC) as the controller. I already provided a detailed introduction about reservoir computing, if you are interested, you can take a look [here](https://github.com/Zheng-Meng/Reservoir-Computing-and-Hyperparameter-Optimization).
+Given this data, we can then train the machine learning controller. Here we employ reservoir computing (RC) as the controller. For detailed information about RC, please refer to [here](https://github.com/Zheng-Meng/Reservoir-Computing-and-Hyperparameter-Optimization).
 
-Run `train_rc_lorenz.m` to train the RC. After training, we evaluate the performance on the validation set, that is, we predict the control signal given current and next state, following the order on the attractor:
+Run `train_rc_lorenz.m` to train the RC. After training, we evaluate the performance on the validation set, that is, we predict the control signal given current and next state, following the order on the attractor (Params 1-3 corresponds to $$u_1-u_3$$, I didn’t revise the figure for this minor notation difference):
 
 <p align="center">
 <img src='figures/rc_train.png' width='700'>
 </p>
 
-The evaluation performance is great! But we should not celebrate too early, a great performance on evaluation does not directly mean the control will perform well on the target orbit, as that requires continuous control over time. Therefore, we need to further test the trained RC.
+The evaluation performance is great! But we should not celebrate too early, as a good result on the validation set does not necessarily mean the control will perform well on the target orbit, as that requires continuous control over time. Therefore, we need to further test the trained RC.
 
 Run `test_rc_lorenz.m`, and it will use the saved trained RC and test on the pre-found orbit. One example result is shown below:
 
@@ -64,15 +64,17 @@ If we plot this tracking result in 3D, the performance is as follows:
 <img src='figures/controlled_attractor.png' width='700'>
 </p>
 
-On the left is the plot from the start, and on the right is after removing the unstable beginning part, showing the long-term stable control. The RC successfully tracks the periodic orbit, although there are small deviations that are not obvious in the previous plot. Finally we made it!
+On the left is the plot from the start, and on the right is after removing the unstable beginning part, showing the long-term stable control. The RC successfully tracks the periodic orbit, although there are small deviations that are not obvious in the previous plot. (Finally we made it!)
 
 <h3>More information</h3>
 
-You can do more tests, such as longer or shorter periodic orbits, or control it to some unstable steady states, and more, to futher validate the performance.
+- You can do more tests, such as longer or shorter periodic orbits, or control it to some unstable steady states, and more, to futher validate the performance.
 
-To improve the performance, one should optimize the hyperparameters of RC, as they are vital to the result, as shown [here](https://github.com/Zheng-Meng/Reservoir-Computing-and-Hyperparameter-Optimization).
+- Here I did not optimize the hyperparameters. To improve the performance, one should optimize them for RC, as they are vital to the result, as shown [here](https://github.com/Zheng-Meng/Reservoir-Computing-and-Hyperparameter-Optimization).
 
-It is also worth noting that one problem existing in many papers (and also shown here) is that the control signals often need to be sufficiently large to achieve good performance. However, in many real scenarios, our available energy is limited. Thus, how to use as little control energy as possible while still achieving satisfactory control is an interesting topic for future work.
+- It is also worth noting that one problem existing in many papers (and also shown here) is that the control signals often need to be sufficiently large to achieve good performance. However, in many real scenarios, our available energy is limited. Thus, how to use as little control energy as possible while still achieving satisfactory control is an interesting topic.
+
+- (Future space) There are also many other interesting topics in my mind, but I am currently tired to write them down. 
 
 
 <h3>Citation</h3>
