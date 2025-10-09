@@ -4,42 +4,45 @@ Previously I have published a paper in [Nature Communications](https://doi.org/1
 
 Many people asked me that they are interested in this field (model-free control of dynamical systems with machine learning), and wonder if there exists a comparably simpler task for beginners to start with. In light of this, here I want to introduce controlling chaotic systems, specifically a chaotic Lorenz system to a periodic orbit, by using reservoir computing (a type of recurrent neural network). This task has been done in this [Paper](https://iopscience.iop.org/article/10.1088/2632-072X/ac24f3) (though there are some differences).
 
+<h3>Overview</h3>
+
 <p align="center">
 <img src='figures/overview.png' width='800'>
 </p>
 
 This line of researh follows the above framework. Specifically, we first need to generate the training data, where the current state **x**(t) is driven by some control signal **u**(t) to the next state **x**(t+dt), step by step. You can imagine a robotic arm as an example: torques are added to the arms to push them move in time. After collecting this data, we would, as panel (a) depicts, put the current state and the next state together as the input, and the control signal that causes this as the output. Thus, the machine learns through the training phase: if we want to move from the current state to a nearby next state, how should we add the control signal to the system.
 
-This is exactly how we test the model later. We give the current observed state and the target state in each step as input, and the well-trained model should return an appropriate control signal. It is worth noting that this data-driven control framework is not only limited to chaotic orbit control or robotic arms; as long as it is a dynamical system, it should work.
+This is exactly how we test the model later. We give the current observed state **x**(t) and the target state **x**$_d(t)$ in each step as input, and the well-trained model should return an appropriate control signal. It is worth noting that this data-driven control framework is not only limited to chaotic orbit control or robotic arms; as long as it is a dynamical system, it should work.
 
+<h3>Example: Controlling the Lorenz System</h3>
 
-Specifically, we need to first generate the training data, where the current state is drived by some control signal to the next state, step by step. You can imagine a robtic arm as an example: torques are added to the arms to push them move in time. After collecting this data, we would, as panel (a) depicts, put current state and the next state in each time together as the input, and the control singal cause this as the output. Thus the machine learns through the whole learning phase, if we want to start from the current state to a random next state (close), how should we add the control signal to the dynamical system. And this is exactly how we test the machine in the testing phase, we give current observed state, and the target state in each step as input, the well-trained machine should return an appropriate control signal. It is worth noting that this data driven control framework is not only limited in chaotic orbits control or robotic arms, as long as it is a dynamical system, it should work.
+Now let’s move to our example. Our aim here is to control a chaotic Lorenz system to a periodic orbit. 
 
-Now let's move to our example. Our aim is to control a chaotic Lorenz system, to a periodic orbit. If we can achieve this, and with more experiments, maybe we can successfully control this dynamical system to any state in the attractors (unstable steady states or arbitrary periodic orbits).
-
-First, run `find_lorenz_orbits.m` then it can help you find orbits to control, and save them to file. I plot one of orbits found as an example:
+First, run `find_lorenz_orbits.m` to identify periodic orbits for control and save them to a file for later use. Since I have already run this step and saved the results, you may skip it if desired. Below, I plot one of the identified orbits as an example:
 
 <p align="center">
 <img src='figures/lorenz_orbit.png' width='500'>
 </p>
 
-where the black attractor is the Lorenz attractor, and the red line denote on orbit that we would later control the dynamical system to follow.
+The black attractor is the Lorenz attractor, and the red line denotes one orbit that we will later control the system to follow. We choose the following method to add control signals to the Lorenz system:
 
-We choose the following method to add control signals to the Lorenz system:
+$$\frac{dx}{dt}=\sigma (y-x) + u_1, $$
 
-(Lorenz system formula here)
+$$\frac{dy}{dt}=x(\rho - z) - y + u_2,$$
 
-where x, y, z are the variabels, and rho, sigma, beta are default values (). The control signals (u1, u2, u3) are added to the three ODEs, separately.
+$$\frac{dz}{dt}=xy-\beta z + u_3,$$
 
-Follow the framework we have introduced above, we would first train a reservoir computing, to predict accurately the control signals, given current and next states. Notably, the control signals are chosen in specific range, generated by Gaussian noise and being smoothed. The control singals, as well as the time series generated affected by the control signals, are shown as follows:
+where $$x, y, z$$ are the variables, and $$\sigma, \rho, \beta$$ are system parameters. The control signals **u**$$=(u_1, u_2, u_3)$$ are added to the equation to perturb the dynamics.
+
+Following the framework introduced above, we first train a reservoir computing model to predict the control signals given the current and next states. Notably, the control signals are chosen within a specific range, generated by Gaussian noise and then smoothed. The control signals, as well as the time series affected by them, are shown below:
 
 <p align="center">
 <img src='figures/control_signal.png' width='800'>
 </p>
 
-Although I use different colors for each control signal and variable, please remember that each control signal affect the whole dynamics. 
+Given this data, we can then train the machine learning controller. Here we use reservoir computing (RC) to serve as the controller.  As I already provided a detailed introduction about reservoir computing, if you are interested, you can take a look [here](https://github.com/Zheng-Meng/Reservoir-Computing-and-Hyperparameter-Optimization).
 
-Given this data, we can then train the RC, you can run `train_rc_lorenz.m` to train the RC. As I already provide a quite detiled introduction about reservoir computing, if you are interesed, you can take a look [here](https://github.com/Zheng-Meng/Reservoir-Computing-and-Hyperparameter-Optimization). After training, we will evalute the performacne on the validation set, that is, we just predict the control signal, by given current state and next state:
+Run `train_rc_lorenz.m` to train the RC. After training, we evaluate the performance on the validation set, that is, we predict the control signal given current and next state, following the order on the attractor:
 
 <p align="center">
 <img src='figures/rc_train.png' width='700'>
